@@ -4,36 +4,313 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACCORD</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- Premium Custom CSS --- */
+        :root {
+            --primary: #111827;
+            --accent: #f17065;
+            --accent-hover: #e05b50;
+            --bg-light: #f9fafb;
+            --text-muted: #6b7280;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--primary);
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6, .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Navbar - Glassmorphism */
+        .premium-nav {
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: var(--primary) !important;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--primary) !important;
+            margin: 0 10px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17,24,39,0.9), rgba(17,24,39,0.6)), url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
+            padding: 100px 20px;
+            margin-top: -76px; /* Pull up under navbar */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            color: #fff;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.25rem;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-premium {
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: #fff;
+            border: 2px solid var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: var(--accent-hover);
+            border-color: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(241, 112, 101, 0.3);
+            color: #fff;
+        }
+
+        .btn-outline-light {
+            border: 2px solid rgba(255,255,255,0.8);
+            background: transparent;
+            color: #fff;
+        }
+
+        .btn-outline-light:hover {
+            background: #fff;
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        /* Premium Cards */
+        .premium-card {
+            background: #fff;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.03);
+            padding: 40px 20px;
+            height: 100%;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+
+        .premium-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: rgba(241, 112, 101, 0.2);
+        }
+
+        .card-icon-wrapper {
+            width: 70px;
+            height: 70px;
+            background: rgba(241, 112, 101, 0.1);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .premium-card:hover .card-icon-wrapper {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* About Section */
+        .about-image {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Achievements Section */
+        .achievements-section {
+            background-color: var(--primary);
+            color: #fff;
+            position: relative;
+        }
+
+        .achievement-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            height: 100%;
+            transition: background 0.3s;
+        }
+
+        .achievement-card:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        .achievement-card h3 {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: #fff;
+        }
+
+        .achievement-card p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+        }
+
+        .achievement-card .icon-large {
+            font-size: 2.5rem;
+            color: var(--accent);
+        }
+
+        /* Map & Contact */
+        .map-container {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            height: 450px;
+        }
+
+        .contact-info-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            height: 100%;
+        }
+
+        /* Footer */
+        .premium-footer {
+            background-color: #000;
+            padding: 3rem 0;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            transition: color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 
-    <header class="navbar navbar-expand-lg bg-light shadow-sm py-2 px-3">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="#">ACCORD</a>
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg premium-nav fixed-top px-3 py-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">ACCORD</a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <i class="fas fa-bars fs-3 text-dark"></i>
             </button>
 
             <div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4 text-center">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3 text-center">
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Courses</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#gallery">Images</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Programs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
                     <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Teachers/teachers.html">Teacher</a></li>
                 </ul>
 
-                <div class="d-flex align-items-center gap-3 justify-content-center mt-3 mt-lg-0">
-                    <a href="user.html"><i class="fas fa-user text-dark"></i></a>
-
-                    <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold" type="button">
-                        🌙 Dark Mode
+                <div class="d-flex align-items-center gap-4 justify-content-center mt-3 mt-lg-0">
+                    <a href="user.html" class="text-dark fs-5 transition"><i class="fas fa-user-circle"></i></a>
+                    <button id="darkModeToggle" class="btn btn-outline-dark btn-sm rounded-pill px-4 py-2 fw-semibold d-flex align-items-center gap-2" type="button">
+                        <i class="fas fa-moon"></i> Dark
                     </button>
                 </div>
             </div>
@@ -41,178 +318,179 @@
     </header>
 
     <main>
+        <!-- Hero Section -->
         <section class="hero-section">
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <h1>
-                    “Empower Minds,<br>Fuel Futures.”
-                </h1>
-                <p>
-                    Inspiring curiosity, creativity & confidence—every step of the way.
-                </p>
-                <div class="hero-buttons">
-                    <button class="hero-button" onclick="location.href='#about'">
-                        Learn More
-                    </button>
-                    <button class="hero-button" style="background-color: #f17065;" onmouseover="this.style.backgroundColor='#C33D2F'" onmouseout="this.style.backgroundColor='#DB4437'" onclick="location.href='#contact'">
-                        Contact Us
-                    </button>
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                <h1>Empower Minds,<br>Fuel Futures.</h1>
+                <p>Inspiring curiosity, creativity & confidence—every step of the way. Discover a learning experience designed to bring out the best in every child.</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="#about" class="btn-premium btn-outline-light">Discover More</a>
+                    <a href="#contact" class="btn-premium btn-accent">Get in Touch</a>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="about-section section-padding">
-            <div class="container">
-                <h2 class="section-title">About Harshit Patel</h2>
-                <div class="about-content">
-                    <div class="about-image">
-                        <img src="Img/dp.jpeg" alt="Harshit Patel">
+        <!-- About Section -->
+        <section id="about" class="py-5 my-5">
+            <div class="container py-5">
+                <div class="row align-items-center gy-5">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <div class="about-image">
+                            <!-- Make sure your image path is correct -->
+                            <img src="Img/dp.jpeg" alt="Harshit Patel" class="img-fluid" onerror="this.src='https://images.unsplash.com/photo-1544717302-de2939b7ef71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        </div>
                     </div>
-                    <div class="about-text">
-                        <p>Hello! I'm Harshit Patel, and I've dedicated the last 3 years to fostering a love for learning in young minds. My passion lies in creating an engaging and supportive environment where every child can thrive academically and personally.</p>
+                    <div class="col-lg-5 offset-lg-1" data-aos="fade-left">
+                        <h6 class="text-uppercase text-muted fw-bold tracking-widest mb-2">The Founder</h6>
+                        <h2 class="section-title mb-4">About Harshit Patel</h2>
+                        <p class="fs-5 text-secondary mb-4 lh-lg">Hello! I'm Harshit Patel, and I've dedicated the last 3 years to fostering a love for learning in young minds.</p>
+                        <p class="text-muted lh-lg">My passion lies in creating an engaging and supportive environment where every child can thrive academically and personally. Through personalized attention and creative methodologies, I strive to make education not just a task, but a lifelong joy.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="services" class="py-5 bg-light">
-            <div class="container">
-                <h2 class="text-center mb-5 text-primary fw-bold">Our Programs</h2>
+        <!-- Programs Section -->
+        <section id="services" class="py-5 bg-white">
+            <div class="container py-5">
+                <div class="text-center" data-aos="fade-up">
+                    <h2 class="section-title">Our Programs</h2>
+                    <p class="section-subtitle">Tailored educational experiences designed for every stage of your child's early development.</p>
+                </div>
+                
+                <div class="row g-4 mt-2">
+                    <!-- Tuitions -->
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="premium-card text-center">
+                            <div class="card-icon-wrapper">
+                                <i class="fas fa-book-reader"></i>
+                            </div>
+                            <h5 class="mb-3">Tuitions</h5>
+                            <ul class="list-unstyled text-muted d-flex flex-column gap-2 mb-0">
+                                <li>Nursery to Sr. KG</li>
+                                <li>Primary School</li>
+                                <li>Secondary School</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Playschool -->
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                        <div class="premium-card text-center">
+                            <div class="card-icon-wrapper">
+                                <i class="fas fa-shapes"></i>
+                            </div>
+                            <h5 class="mb-3">Playschool</h5>
+                            <ul class="list-unstyled text-muted d-flex flex-column gap-2 mb-0">
+                                <li>Nursery</li>
+                                <li>Junior KG</li>
+                                <li>Senior KG</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Drawing Class -->
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                        <div class="premium-card text-center">
+                            <div class="card-icon-wrapper">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h5 class="mb-3">Drawing Class</h5>
+                            <ul class="list-unstyled text-muted d-flex flex-column gap-2 mb-0">
+                                <li>Faces & Portraits</li>
+                                <li>Elementary & Intermediate</li>
+                                <li>Colouring & Shading</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Personal Class -->
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                        <div class="premium-card text-center">
+                            <div class="card-icon-wrapper">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h5 class="mb-3">Personal Class</h5>
+                            <ul class="list-unstyled text-muted d-flex flex-column gap-2 mb-0">
+                                <li>Mathematics</li>
+                                <li>Computer Science</li>
+                                <li>English & Science</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section id="achievements" class="achievements-section py-5 my-5">
+            <div class="container py-5">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title text-white">Our Achievements</h2>
+                    <p class="section-subtitle text-white-50">Milestones that reflect our commitment to excellence.</p>
+                </div>
+                
                 <div class="row g-4">
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card h-100 shadow-sm rounded-4">
-                            <div class="card-body text-center">
-                                <div class="mb-3 fs-2 text-info"><i class="fas fa-child"></i></div>
-                                <h5 class="card-title fw-semibold text-dark">TUITIONS</h5>
-                                <ul class="list-unstyled text-secondary mt-3">
-                                    <li>Nursery to Srkg</li>
-                                    <li>Primary School</li>
-                                    <li>Secondary School</li>
-                                </ul>
-                            </div>
+                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="achievement-card">
+                            <i class="fas fa-user-graduate icon-large"></i>
+                            <h3>100+ Successful Students</h3>
+                            <p>Helped over a hundred students achieve their academic goals and build strong, confident foundations.</p>
                         </div>
                     </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card h-100 shadow-sm rounded-4">
-                            <div class="card-body text-center">
-                                <div class="mb-3 fs-2 text-info"><i class="fas fa-child"></i></div>
-                                <h5 class="card-title fw-semibold text-dark">PLAYSCHOOL</h5>
-                                <ul class="list-unstyled text-secondary mt-3">
-                                    <li>Nursery</li>
-                                    <li>Junior Kindergarten (Jr. KG)</li>
-                                    <li>Senior Kindergarten (Sr. KG)</li>
-                                </ul>
-                            </div>
+                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="achievement-card">
+                            <i class="fas fa-gamepad icon-large"></i>
+                            <h3>Points System</h3>
+                            <p>An innovative gamified system that makes learning feel like an adventure and less like a burden.</p>
                         </div>
                     </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card h-100 shadow-sm rounded-4">
-                            <div class="card-body text-center">
-                                <div class="mb-3 fs-2 text-info"><i class="fas fa-paint-brush"></i></div>
-                                <h5 class="card-title fw-semibold text-dark">DRAWING CLASS</h5>
-                                <ul class="list-unstyled text-secondary mt-3">
-                                    <li>Faces</li>
-                                    <li>Elementary & Intermediate</li>
-                                    <li>Colouring and Shading</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card h-100 shadow-sm rounded-4">
-                            <div class="card-body text-center">
-                                <div class="mb-3 fs-2 text-info"><i class="fas fa-user-graduate"></i></div>
-                                <h5 class="card-title fw-semibold text-dark">PERSONAL CLASS</h5>
-                                <ul class="list-unstyled text-secondary mt-3">
-                                    <li>Mathematics</li>
-                                    <li>Computer</li>
-                                    <li>English</li>
-                                    <li>Science</li>
-                                </ul>
-                            </div>
+                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="achievement-card">
+                            <i class="fas fa-chart-line icon-large"></i>
+                            <h3>Consistent High Scores</h3>
+                            <p>Our students consistently demonstrate significant improvement and achieve excellent results.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="gallery" class="py-5 bg-light">
-            <div class="container">
-                <h2 class="text-center mb-5 text-primary fw-bold">Our Learning Environment</h2>
-                <div class="masonry-gallery">
-                    <img src="Img/class1.jpeg" alt="Classroom 1" class="gallery-img">
-                    <img src="Img/class2.jpeg" alt="Classroom 2" class="gallery-img">
-                    <img src="Img/hall.jpeg" alt="Student Activity" class="gallery-img">
-                    <img src="Img/holi2.jpeg" alt="Learning Resources" class="gallery-img">
-                    <img src="Img/wallpaper.jpeg" alt="Group Study" class="gallery-img">
-                    <img src="Img/hoki1.jpeg" alt="Creative Corner" class="gallery-img">
-                    <img src="Img/holi3.jpeg" alt="Drawings" class="gallery-img">
+        <!-- Contact Section -->
+        <section id="contact" class="py-5 bg-white">
+            <div class="container py-5">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Get in Touch</h2>
+                    <p class="section-subtitle">We'd love to hear from you. Visit us or reach out via phone.</p>
                 </div>
-            </div>
-        </section>
 
-        <section id="achievements" class="achievements-section section-padding">
-            <div class="container">
-                <h2 class="section-title">Our Achievements</h2>
-                <div class="achievements-grid">
-                    <div class="achievement-card">
-                        <i class="fas fa-user-graduate icon-large"></i>
-                        <h3>100+ Successful Students</h3>
-                        <p>Helped over a hundred students achieve their academic goals and build strong foundations.</p>
+                <div class="row gy-4 mb-5">
+                    <div class="col-12" data-aos="fade-up">
+                        <div class="map-container">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3764.1058725910916!2d72.8073897!3d19.3645679!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7af2af021d707%3A0xc5b60861a5c9e1c5!2sArtisan%20Drawing%20Classes!5e0!3m2!1sen!2sin!4v1751226881059!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
                     </div>
-                    <div class="achievement-card">
-                        <i class="fas fa-user-graduate icon-large"></i>
-                        <h3>Points System</h3>
-                        <p>A system that makes students studies feel like a game more and burden less</p>
-                    </div>
-                    <div class="achievement-card">
-                        <i class="fas fa-user-graduate icon-large"></i>
-                        <h3>Consistent High Scores</h3>
-                        <p>Our students consistently demonstrate significant improvement and achieve excellent results in their examinations.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact-section section-padding py-5">
-            <div class="container">
-                <h2 class="section-title text-center mb-4">Get in Touch</h2>
-
-                <div class="mb-4 rounded-3 overflow-hidden shadow" style="box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3764.1058725910916!2d72.8073897!3d19.3645679!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7af2af021d707%3A0xc5b60861a5c9e1c5!2sArtisan%20Drawing%20Classes!5e0!3m2!1sen!2sin!4v1751226881059!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
 
                 <div class="row gy-4">
-                    <div class="col-md-6">
-                        <div class="p-4 rounded-3 shadow-sm bg-white h-100">
-                            <h3 class="mb-2"><i class="fas fa-phone-alt me-2 text-primary"></i>Call Us</h3>
-                            <p class="mb-0"><a href="tel:+918080756214" class="text-decoration-none text-dark">+91 8080756214</a></p>
+                    <div class="col-md-5" data-aos="fade-right">
+                        <div class="contact-info-card d-flex flex-column justify-content-center">
+                            <h3 class="mb-4 text-dark"><i class="fas fa-phone-alt me-3 text-primary"></i>Contact Info</h3>
+                            <p class="fs-5 mb-2 text-muted">Ready to start the journey?</p>
+                            <a href="tel:+918080756214" class="fs-3 fw-bold text-decoration-none text-dark hover-accent transition">+91 8080756214</a>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="p-4 rounded-3 shadow-sm bg-white h-100">
-                            <h3 class="mb-3 d-flex align-items-center text-dark">
-                                <i class="fas fa-clock me-2 text-primary"></i>Opening Hours
-                            </h3>
-                            <div class="row">
-                                <div class="col-6 text-dark fw-semibold">Monday</div>
-                                <div class="col-6 text-muted">10:00 AM – 10:00 PM</div>
-                                <div class="col-6 text-dark fw-semibold">Tuesday</div>
-                                <div class="col-6 text-muted">10:00 AM – 10:00 PM</div>
-                                <div class="col-6 text-dark fw-semibold">Wednesday</div>
-                                <div class="col-6 text-muted">10:00 AM – 10:00 PM</div>
-                                <div class="col-6 text-dark fw-semibold">Thursday</div>
-                                <div class="col-6 text-muted">10:00 AM – 10:00 PM</div>
-                                <div class="col-6 text-dark fw-semibold">Friday</div>
-                                <div class="col-6 text-muted">10:00 AM – 10:00 PM</div>
-                                <div class="col-6 text-dark fw-semibold">Saturday</div>
-                                <div class="col-6 text-muted">10:00 AM – 10:00 PM</div>
-                                <div class="col-6 text-dark fw-semibold">Sunday</div>
-                                <div class="col-6 text-muted">10:00 AM – 10:00 PM</div>
+                    <div class="col-md-7" data-aos="fade-left">
+                        <div class="contact-info-card">
+                            <h3 class="mb-4 text-dark"><i class="fas fa-clock me-3 text-primary"></i>Opening Hours</h3>
+                            <div class="row gy-2 text-muted">
+                                <div class="col-6 fw-semibold text-dark">Monday - Sunday</div>
+                                <div class="col-6">10:00 AM – 10:00 PM</div>
+                                <!-- Condensed to save space, but keeps accuracy -->
+                                <div class="col-12 mt-3 pt-3 border-top">
+                                    <small><em>*We are open all 7 days of the week to ensure flexible scheduling for all students.</em></small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -221,18 +499,49 @@
         </section>
     </main>
 
-    <footer class="tesla-footer mt-5 py-4 bg-dark text-white text-center">
-        <div class="footer-links d-flex flex-wrap justify-content-center gap-3">
-            <span>Accord © 2025</span>
-            <a href="#" class="text-white text-decoration-none">Privacy & Legal</a>
-            <a href="#" class="text-white text-decoration-none">Contact</a>
-            <a href="#" class="text-white text-decoration-none">News</a>
-            <a href="#" class="text-white text-decoration-none">Get Updates</a>
-            <a href="#" class="text-white text-decoration-none">Locations</a>
-            <a href="#" class="text-white text-decoration-none">Learn</a>
+    <!-- Premium Footer -->
+    <footer class="premium-footer text-center">
+        <div class="container">
+            <h4 class="text-white mb-4 fw-bold">ACCORD</h4>
+            <div class="footer-links d-flex flex-wrap justify-content-center gap-4 mb-4">
+                <a href="#" class="text-decoration-none">Privacy & Legal</a>
+                <a href="#contact" class="text-decoration-none">Contact</a>
+                <a href="#" class="text-decoration-none">News</a>
+                <a href="#" class="text-decoration-none">Get Updates</a>
+                <a href="#contact" class="text-decoration-none">Locations</a>
+                <a href="#services" class="text-decoration-none">Learn</a>
+            </div>
+            <p class="text-white-50 mb-0 small">© 2025 Accord. All Rights Reserved.</p>
         </div>
     </footer>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animations
+        AOS.init({
+            once: true, 
+            offset: 50,
+            duration: 800,
+        });
+
+        // Optional: Simple logic for the Dark Mode toggle (assuming you expand this in script.js)
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode-active'); // Add your CSS for dark mode
+            // Toggle Icon logic
+            const icon = this.querySelector('i');
+            if(icon.classList.contains('fa-moon')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                this.innerHTML = '<i class="fas fa-sun"></i> Light';
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                this.innerHTML = '<i class="fas fa-moon"></i> Dark';
+            }
+        });
+    </script>
+    <!-- Keep your external script link if needed -->
     <script src="script.js"></script>
 </body>
 </html>

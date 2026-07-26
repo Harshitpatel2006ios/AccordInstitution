@@ -1,28 +1,53 @@
-/* Basic Reset & Typography */
-
+/* ==========================================================================
+   1. CSS VARIABLES (THEME TOKENS)
+   ========================================================================== */
 :root {
-    --primary-color: #007aff; /* Apple Blue */
-    --secondary-color: #5ac8fa; /* Lighter Blue */
-    --text-color: #1c1c1e; /* Dark text */
-    --light-text-color: #6a6a6a; /* Lighter text */
-    --background-light: #f5f5f7; /* Off-white for sections */
-    --background-white: #ffffff;
-    --border-color: #e0e0e0;
-    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --border-radius: 12px;
-    --font-family: 'Inter', sans-serif;
-
-    /* Dark Mode Variables */
-    --dark-primary-color: #90caf9; /* Lighter blue for dark mode accents */
-    --dark-secondary-color: #64b5f6; /* A bit darker for hover */
-    --dark-text-color: #e0e0e0; /* Light text for dark mode */
-    --dark-light-text-color: #b0b0b0; /* Lighter text for dark mode */
-    --dark-background-light: #2c2c2c; /* Dark grey for sections */
-    --dark-background-white: #1a1a1a; /* Very dark for main background/cards */
-    --dark-border-color: #444444;
-    --dark-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    /* Color Palette */
+    --accent: #f17065;
+    --accent-hover: #e05b50;
+    --accent-light: rgba(241, 112, 101, 0.15);
+    
+    /* Light Mode Backgrounds */
+    --bg-body: #f9fafb;
+    --bg-surface: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.85);
+    
+    /* Light Mode Typography */
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    
+    /* Borders & Shadows */
+    --border-color: rgba(0, 0, 0, 0.08);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 20px 40px -5px rgba(0, 0, 0, 0.08);
 }
 
+/* Dark Mode Variables - Automatically swaps when body has .dark-mode */
+body.dark-mode {
+    /* Dark Mode Backgrounds */
+    --bg-body: #0f172a;      /* Deep modern slate */
+    --bg-surface: #1e293b;   /* Slightly lighter slate for cards */
+    --bg-glass: rgba(15, 23, 42, 0.85);
+    
+    /* Dark Mode Typography */
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    /* Dark Mode Borders & Shadows */
+    --border-color: rgba(255, 255, 255, 0.08);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+    
+    /* Overriding Bootstrap backgrounds for dark mode */
+    --bs-light-rgb: 15, 23, 42;
+    --bs-body-bg: var(--bg-body);
+}
+
+/* ==========================================================================
+   2. GLOBAL & BASE STYLES
+   ========================================================================== */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -34,570 +59,215 @@ html {
 }
 
 body {
-    font-family: var(--font-family);
+    font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    color: var(--text-color);
-    background-color: var(--background-light);
+    color: var(--text-main);
+    background-color: var(--bg-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+    /* Universal transition for buttery smooth dark mode toggling */
+    transition: background-color 0.4s ease, color 0.4s ease;
+    overflow-x: hidden;
 }
 
-/* Dark Mode: Global styles */
-body.dark-mode {
-    color: var(--dark-text-color);
-    background-color: var(--dark-background-light);
-}
-
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6 {
-    color: var(--dark-text-color);
-}
-
-body.dark-mode a {
-    color: var(--dark-primary-color);
-}
-
-body.dark-mode a:hover {
-    color: var(--dark-secondary-color);
-}
-
-.container {
-    max-width: 90%;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    margin-bottom: 0.8em;
-    color: var(--text-color);
-}
-
-h1 { font-size: 2.2em; }
-h2 { font-size: 1.8em; }
-h3 { font-size: 1.4em; }
-
-p {
-    margin-bottom: 1em;
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: var(--text-main);
+    transition: color 0.4s ease;
 }
 
 a {
-    color: var(--primary-color);
+    color: var(--accent);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: var(--secondary-color);
+    color: var(--accent-hover);
 }
 
-ul {
-    list-style: none;
+/* ==========================================================================
+   3. BOOTSTRAP OVERRIDES (For seamless Dark Mode)
+   ========================================================================== */
+.bg-light, .bg-white {
+    background-color: var(--bg-body) !important;
+    transition: background-color 0.4s ease;
 }
 
-.section-padding {
-    padding: 60px 0;
-}
+.text-dark, .text-primary { color: var(--text-main) !important; }
+.text-muted, .text-secondary { color: var(--text-muted) !important; }
 
-.section-title {
-    text-align: center;
-    margin-bottom: 50px;
-    font-size: 2em;
-    font-weight: 700;
-    position: relative;
-}
-
-.section-title::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 4px;
-    background-color: var(--primary-color);
-    margin: 15px auto 0;
-    border-radius: 2px;
-}
-
-/* Dark Mode: Section Title */
-body.dark-mode .section-title::after {
-    background-color: var(--dark-primary-color);
-}
-
-/* Buttons */
-/* You'll want to add dark mode styles for your buttons here if they are custom and not Bootstrap defaults */
-/* Example for your hero buttons */
-.hero-button { /* Assuming these styles are applied to your hero section buttons */
-    background-color: #4285F4;
-    color: #fff;
-    font-weight: 600;
-    padding: 14px 28px;
-    border: none;
-    border-radius: 25px;
-    box-shadow: 0 6px 15px rgba(134, 176, 243, 0.4);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.hero-button:hover {
-    background-color: #3367D6;
-}
-
-body.dark-mode .hero-button {
-    background-color: var(--dark-primary-color);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-}
-
-body.dark-mode .hero-button:hover {
-    background-color: var(--dark-secondary-color);
-}
-
-
-/* About Section */
-.about-section {
-    background-color: var(--background-white);
-    border-radius: var(--border-radius);
-    margin: -40px auto 0;
-    position: relative;
-    z-index: 50;
-    box-shadow: var(--card-shadow);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Dark Mode: About Section */
-body.dark-mode .about-section {
-    background-color: var(--dark-background-white);
-    box-shadow: var(--dark-card-shadow);
-}
-
-.about-content {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    align-items: center;
-}
-
-.about-image {
-    flex-shrink: 0;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
-
-.about-image img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    display: block;
-    border-radius: var(--border-radius);
-}
-
-.about-text {
-    flex-grow: 1;
-    text-align: center;
-}
-
-/* Services Section */
-.services-section {
-    background-color: var(--background-light);
-    transition: background-color 0.3s ease;
-}
-
-/* Dark Mode: Services Section */
-body.dark-mode .services-section {
-    background-color: var(--dark-background-light);
-}
-
-.service-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 25px;
-}
-
-.service-card {
-    background-color: var(--background-white);
-    padding: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-}
-
-.service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-}
-
-/* Dark Mode: Service Card */
-body.dark-mode .service-card {
-    background-color: var(--dark-background-white);
-    box-shadow: var(--dark-card-shadow);
-}
-
-body.dark-mode .service-card:hover {
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-}
-
-.service-card .icon-wrapper {
-    font-size: 3em;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
-
-/* Dark Mode: Service Card Icon */
-body.dark-mode .service-card .icon-wrapper {
-    color: var(--dark-primary-color);
-}
-
-.service-card h3 {
-    font-size: 1.3em;
-    margin-bottom: 15px;
-    color: var(--text-color); /* Ensure heading color changes */
-}
-
-body.dark-mode .service-card h3 {
-    color: var(--dark-text-color);
-}
-
-.service-card ul {
-    margin-top: 15px;
-    text-align: left;
-    padding-left: 20px;
-    color: var(--light-text-color);
-}
-
-/* Dark Mode: Service Card List */
-body.dark-mode .service-card ul {
-    color: var(--dark-light-text-color);
-}
-
-.service-card ul li {
-    margin-bottom: 8px;
-    position: relative;
-}
-
-.service-card ul li::before {
-    content: '\2022'; /* Bullet point */
-    color: var(--primary-color);
-    font-weight: bold;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
-}
-
-/* Dark Mode: Service Card Bullet */
-body.dark-mode .service-card ul li::before {
-    color: var(--dark-primary-color);
-}
-
-/* Achievements Section */
-.achievements-section {
-    background-color: var(--background-light);
-    transition: background-color 0.3s ease;
-}
-
-/* Dark Mode: Achievements Section */
-body.dark-mode .achievements-section {
-    background-color: var(--dark-background-light);
-}
-
-.achievements-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 25px;
-}
-
-.achievement-card {
-    background-color: var(--background-white);
-    padding: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-}
-
-.achievement-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-}
-
-/* Dark Mode: Achievement Card */
-body.dark-mode .achievement-card {
-    background-color: var(--dark-background-white);
-    box-shadow: var(--dark-card-shadow);
-}
-
-body.dark-mode .achievement-card:hover {
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-}
-
-.achievement-card .icon-large {
-    font-size: 3.5em;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-    display: block;
-}
-
-/* Dark Mode: Achievement Card Icon */
-body.dark-mode .achievement-card .icon-large {
-    color: var(--dark-primary-color);
-}
-
-.achievement-card h3 {
-    font-size: 1.3em;
-    margin-bottom: 10px;
-    color: var(--text-color); /* Ensure heading color changes */
-}
-
-body.dark-mode .achievement-card h3 {
-    color: var(--dark-text-color);
-}
-
-
-/* Specific styles for the provided HTML */
-body {
-    font-family: 'Montserrat', sans-serif; /* Keep this if you want Montserrat for body */
-    background-color: #fff; /* This will be overridden by --background-light unless removed */
-}
-
-/* Navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 64px;
-    padding: 0 32px;
-    background-color: var(--background-white); /* Use variable */
-    border-bottom: 1px solid var(--border-color); /* Use variable */
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Dark Mode: Navbar */
-body.dark-mode .navbar {
-    background-color: var(--dark-background-white) !important; /* Use important if needed due to Bootstrap */
-    border-bottom: 1px solid var(--dark-border-color);
+/* ==========================================================================
+   4. NAVBAR (Premium Glassmorphism)
+   ========================================================================== */
+.premium-nav, .navbar {
+    background: var(--bg-glass) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.4s ease;
 }
 
 .navbar-brand {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: 0.4em;
-    color: var(--text-color); /* Use variable */
-    transition: color 0.3s ease;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
 }
-
-/* Dark Mode: Navbar Brand */
-body.dark-mode .navbar-brand {
-    color: var(--dark-text-color) !important;
-}
-
 
 .nav-link {
-    text-decoration: none;
-    color: var(--text-color); /* Use variable */
-    font-size: 14px;
-    transition: color 0.2s;
+    font-weight: 500;
+    margin: 0 10px;
+    position: relative;
+    color: var(--text-main) !important;
 }
 
-/* Dark Mode: Nav Links */
-body.dark-mode .nav-link {
-    color: var(--dark-text-color) !important;
+/* Elegant Underline Hover Effect */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--accent);
+    transition: width 0.3s ease;
 }
 
-.nav-link:hover {
-    color: var(--primary-color); /* Use variable */
+.nav-link:hover::after {
+    width: 100%;
 }
 
-body.dark-mode .nav-link:hover {
-    color: var(--dark-primary-color) !important;
-}
-
-.right-icons a {
-    color: var(--text-color); /* Use variable */
-    font-size: 18px;
-    transition: opacity 0.2s;
-}
-
-/* Dark Mode: Right Icons */
-body.dark-mode .right-icons a {
-    color: var(--dark-text-color) !important;
-}
-
-.right-icons a:hover {
-    opacity: 0.6;
-}
-
-/* Navbar Toggler Icon */
+/* Dark Mode Toggler Icon */
 body.dark-mode .navbar-toggler-icon {
-    filter: invert(1); /* Invert color for dark mode */
-}
-
-/* Navbar Collapse (Mobile Menu Background) */
-.navbar-collapse {
-    background-color: var(--background-light); /* Light background for open menu */
-    padding: 1rem;
-    border-radius: 0 0 10px 10px;
-    transition: background-color 0.3s ease;
+    filter: invert(1);
 }
 
 body.dark-mode .navbar-collapse {
-    background-color: var(--dark-background-light);
-    border-radius: 0 0 10px 10px;
+    background-color: var(--bg-glass);
+    border-radius: 12px;
+    padding: 10px;
 }
 
-
-/* Footer */
-.tesla-footer {
-    background-color: #fff; /* This was hardcoded, let's make it responsive */
-    padding: 20px 0;
-    text-align: center;
-    border-top: 1px solid #e0e0e0;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Dark Mode: Footer */
-body.dark-mode .tesla-footer {
-    background-color: var(--dark-background-white);
-    border-top: 1px solid var(--dark-border-color);
-}
-
-.footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    font-size: 13px;
-    color: var(--light-text-color); /* Use variable */
-    font-family: 'Montserrat', sans-serif;
-}
-
-/* Dark Mode: Footer Links */
-body.dark-mode .footer-links {
-    color: var(--dark-light-text-color);
-}
-
-.footer-links a {
-    text-decoration: none;
-    color: var(--light-text-color); /* Use variable */
-    transition: color 0.2s ease-in-out;
-}
-
-/* Dark Mode: Footer Links Anchor */
-body.dark-mode .footer-links a {
-    color: var(--dark-light-text-color);
-}
-
-.footer-links a:hover {
-    color: var(--text-color); /* Change to primary or text-color */
-}
-
-body.dark-mode .footer-links a:hover {
-    color: var(--dark-text-color);
-}
-
-/* Hero Section Styles (from inline) */
-.hero-section { /* Added a class for the hero section to apply styles easier */
+/* ==========================================================================
+   5. HERO SECTION
+   ========================================================================== */
+.hero-section {
     position: relative;
-    width: 100%;
-    overflow: hidden;
-    height: 100vh;
-    background: url('https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg') center/cover no-repeat;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+    padding: 100px 20px;
 }
 
+/* Intelligent Overlay: Darkens in dark mode for better contrast */
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background-color: rgba(255, 255, 255, 0.596);
-    transition: background-color 0.3s ease;
+    background-color: rgba(17, 24, 39, 0.7);
+    transition: background-color 0.4s ease;
 }
-
 body.dark-mode .hero-overlay {
-    background-color: rgba(0, 0, 0, 0.65); /* Darker overlay for dark mode */
+    background-color: rgba(15, 23, 42, 0.85); 
 }
 
 .hero-content {
     position: relative;
-    color: #3a3737;
+    z-index: 2;
     max-width: 800px;
-    padding: 20px;
-    transition: color 0.3s ease;
-}
-
-body.dark-mode .hero-content {
-    color: var(--dark-text-color);
 }
 
 .hero-content h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    color: inherit; /* Inherit color from parent (.hero-content) */
+    color: #ffffff;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
 }
 
 .hero-content p {
+    color: rgba(255, 255, 255, 0.9);
     font-size: 1.25rem;
-    margin-bottom: 30px;
-    color: inherit; /* Inherit color from parent (.hero-content) */
+    font-weight: 300;
+    margin-bottom: 2.5rem;
 }
 
-.hero-buttons {
-    display: inline-flex;
-    gap: 16px;
-    flex-wrap: wrap;
+/* ==========================================================================
+   6. PREMIUM SECTIONS & CARDS (About, Services, Achievements, Contact)
+   ========================================================================== */
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+/* Premium Card Design (Applies to Courses, Achievements, Contact) */
+.premium-card, .achievement-card, .card, .contact-info-card {
+    background-color: var(--bg-surface);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    padding: 40px 25px;
+    height: 100%;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-card:hover, .achievement-card:hover, .card:hover, .contact-info-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(241, 112, 101, 0.3);
+}
+
+/* Modern Floating Icon Wrapper */
+.card-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    font-size: 1.8rem;
+    margin: 0 auto 1.5rem;
+    transition: all 0.4s ease;
 }
 
-
-/* Programs Section - Cards */
-.card {
-    background-color: var(--background-white);
-    border: 0; /* Remove default border from bootstrap card */
-    box-shadow: var(--card-shadow);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+.premium-card:hover .card-icon-wrapper, .card:hover .card-icon-wrapper {
+    background: var(--accent);
+    color: #ffffff;
+    transform: scale(1.1) rotate(5deg);
 }
 
-body.dark-mode .card {
-    background-color: var(--dark-background-white);
-    box-shadow: var(--dark-card-shadow);
+/* About Image Hover */
+.about-image {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
 }
 
-.card-title {
-    color: var(--text-color);
-    transition: color 0.3s ease;
+.about-image img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.6s ease;
 }
 
-body.dark-mode .card-title {
-    color: var(--dark-text-color);
+.about-image:hover img {
+    transform: scale(1.04);
 }
 
-.card-body .text-info { /* Icons in service cards */
-    color: var(--primary-color) !important;
-}
-
-body.dark-mode .card-body .text-info {
-    color: var(--dark-primary-color) !important;
-}
-
-.card-body .text-secondary { /* List items in service cards */
-    color: var(--light-text-color) !important;
-}
-
-body.dark-mode .card-body .text-secondary {
-    color: var(--dark-light-text-color) !important;
-}
-
-/* Gallery Section */
+/* ==========================================================================
+   7. MASONRY GALLERY
+   ========================================================================== */
 .masonry-gallery {
     column-count: 3;
     column-gap: 20px;
@@ -606,82 +276,42 @@ body.dark-mode .card-body .text-secondary {
 .gallery-img {
     width: 100%;
     margin-bottom: 20px;
-    border-radius: 12px;
+    border-radius: 16px;
     display: block;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.4s ease;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .gallery-img:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
+    box-shadow: var(--shadow-hover);
 }
 
-/* Mobile responsiveness */
+@media (max-width: 991px) {
+    .masonry-gallery { column-count: 2; }
+}
+
 @media (max-width: 768px) {
-    .masonry-gallery {
-        column-count: 1;
-        column-gap: 0;
-    }
+    .masonry-gallery { column-count: 1; column-gap: 0; }
 }
 
-@media (min-width: 769px) and (max-width: 991px) {
-    .masonry-gallery {
-        column-count: 2;
-    }
+/* ==========================================================================
+   8. PREMIUM FOOTER
+   ========================================================================== */
+.premium-footer, .tesla-footer {
+    background-color: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+    padding: 3rem 0;
+    transition: background-color 0.4s ease;
 }
 
-/* Contact Section */
-.contact-section .container .rounded-3.overflow-hidden.shadow {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: box-shadow 0.3s ease;
+.footer-links a {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
 }
 
-body.dark-mode .contact-section .container .rounded-3.overflow-hidden.shadow {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.contact-section .p-4.rounded-3.shadow-sm.bg-white {
-    background-color: var(--background-white) !important; /* Override Bootstrap bg-white */
-    box-shadow: var(--card-shadow);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-body.dark-mode .contact-section .p-4.rounded-3.shadow-sm.bg-white {
-    background-color: var(--dark-background-white) !important;
-    box-shadow: var(--dark-card-shadow);
-}
-
-.contact-section h3 {
-    color: var(--text-color);
-    transition: color 0.3s ease;
-}
-
-body.dark-mode .contact-section h3 {
-    color: var(--dark-text-color);
-}
-
-.contact-section .text-dark {
-    color: var(--text-color) !important;
-    transition: color 0.3s ease;
-}
-
-body.dark-mode .contact-section .text-dark {
-    color: var(--dark-text-color) !important;
-}
-
-.contact-section .text-muted {
-    color: var(--light-text-color) !important;
-    transition: color 0.3s ease;
-}
-
-body.dark-mode .contact-section .text-muted {
-    color: var(--dark-light-text-color) !important;
-}
-
-.contact-section .text-primary {
-    color: var(--primary-color) !important;
-}
-
-body.dark-mode .contact-section .text-primary {
-    color: var(--dark-primary-color) !important;
+.footer-links a:hover {
+    color: var(--accent);
 }

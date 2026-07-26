@@ -3,657 +3,699 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Daily Tasks</title>
+    <title>ACCORD | My Daily Tasks</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
-        /* Base Variables - Define common colors and fonts for easier management */
+        /* --- Premium CSS Variables (Synced with ACCORD Design System) --- */
         :root {
-            --primary-blue: #007aff;
-            --primary-blue-dark: #005ce6;
-            --primary-red: #ff3b30;
-            --primary-red-dark: #cc2f26;
-            --background-light: #f5f5f7; /* Lighter background like Apple */
-            --card-background: #ffffff;
-            --text-dark: #1c1c1e;
-            --text-medium: #3a3a3c;
-            --text-light: #8e8e93;
-            --border-light: #e0e0e0;
-            --shadow-light: rgba(0, 0, 0, 0.06);
-            --shadow-medium: rgba(0, 0, 0, 0.12);
+            --accent: #f17065;
+            --accent-hover: #e05b50;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --bg-body: #f9fafb;
+            --bg-surface: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --input-bg: #f3f4f6;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
         }
 
-        /* General Body Styling */
+        body.dark-mode {
+            --bg-body: #0f172a;
+            --bg-surface: #1e293b;
+            --bg-glass: rgba(15, 23, 42, 0.85);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --input-bg: #0f172a;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        /* --- Base Styles --- */
         body {
-            font-family: 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
-            background-color: var(--background-light);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: background-color 0.4s ease, color 0.4s ease;
             min-height: 100vh;
-            margin: 0;
-            color: var(--text-dark);
-            -webkit-font-smoothing: antialiased; /* Smoother font rendering */
-            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
         }
 
-        /* Container for the To-Do List */
+        h1, h2, h3, .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main);
+        }
+
+        /* --- Premium Navbar --- */
+        .premium-nav {
+            background: var(--bg-glass) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-main) !important;
+        }
+
+        body.dark-mode .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+        body.dark-mode .navbar-collapse {
+            background-color: var(--bg-glass);
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        /* --- Main Layout & Card --- */
+        .app-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 40px; /* Padding top accounts for fixed nav */
+        }
+
         .todo-container {
-            background-color: var(--card-background);
-            border-radius: 20px; /* More pronounced rounded corners */
-            box-shadow: 0 10px 30px var(--shadow-light); /* Deeper, softer shadow */
-            padding: 35px; /* More padding */
+            background-color: var(--bg-surface);
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            padding: 40px;
             width: 100%;
-            max-width: 550px; /* Slightly wider */
-            box-sizing: border-box;
-            animation: fadeIn 0.6s ease-out; /* Slightly longer fade */
-            border: 1px solid rgba(0, 0, 0, 0.05); /* Very subtle border */
+            max-width: 600px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            animation: fadeIn 0.6s ease-out;
         }
 
-        /* Fade-in Animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header Styling */
-        h1 {
-            font-size: 32px; /* Larger heading */
-            font-weight: 700;
-            color: var(--primary-blue);
+        .todo-container h1 {
+            font-size: 2rem;
             text-align: center;
-            margin-bottom: 30px; /* More space below header */
-            letter-spacing: -0.02em; /* Tighter letter spacing */
+            margin-bottom: 30px;
+            font-weight: 700;
         }
 
-        /* Input Section */
+        /* --- Inputs & Segmented Control --- */
         .input-section {
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px; /* Slightly larger gap */
-            margin-bottom: 30px;
-            align-items: stretch; /* Align items to stretch vertically */
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 35px;
         }
 
-        .input-section input[type="text"],
-        .input-section input[type="datetime-local"] {
-            flex-grow: 1;
-            padding: 14px 18px; /* More padding */
-            border: 1px solid var(--border-light);
-            border-radius: 12px; /* More rounded input fields */
-            font-size: 17px; /* Slightly larger font */
-            color: var(--text-medium);
-            outline: none;
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            background-color: var(--card-background); /* Ensure consistent background */
-            min-width: 150px;
-        }
-
-        .input-section input[type="text"]:focus,
-        .input-section input[type="datetime-local"]:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2); /* Soft blue glow on focus */
-        }
-
-        .input-section button {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            border-radius: 12px; /* Consistent rounded buttons */
-            padding: 14px 25px; /* More padding */
-            font-size: 17px; /* Consistent font size */
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.2); /* Subtle button shadow */
-        }
-
-        .input-section button:hover {
-            background-color: var(--primary-blue-dark);
-            transform: translateY(-2px); /* More pronounced lift */
-            box-shadow: 0 6px 15px rgba(0, 122, 255, 0.3);
-        }
-
-        .input-section button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 122, 255, 0.1);
-        }
-
-        .input-section .option-buttons {
+        .option-buttons {
             display: flex;
-            gap: 10px;
-            width: 100%;
-            margin-top: 5px; /* Closer to input fields */
+            background-color: var(--input-bg);
+            border-radius: 12px;
+            padding: 5px;
+            gap: 5px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.4s ease;
         }
 
-        .input-section .option-buttons button {
+        .option-buttons button {
             flex: 1;
             padding: 10px 15px;
-            font-size: 15px;
-            background-color: var(--border-light); /* Lighter background for options */
-            color: var(--text-medium);
-            font-weight: 500;
-            border-radius: 10px; /* Slightly less rounded than main buttons */
-            box-shadow: none; /* No shadow for option buttons */
-        }
-        .input-section .option-buttons button:hover {
-            background-color: #d8d8d8; /* Slightly darker on hover */
-            transform: none; /* No lift */
-            box-shadow: none;
-        }
-        .input-section .option-buttons button.active {
-            background-color: var(--primary-blue);
-            color: white;
-            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15); /* Subtle active shadow */
-        }
-        .input-section .option-buttons button:active {
-            transform: none;
+            font-size: 0.95rem;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        /* Custom styling for datetime-local to hide date part */
-        .input-section input[type="datetime-local"]::-webkit-datetime-edit-day-field,
-        .input-section input[type="datetime-local"]::-webkit-datetime-edit-month-field,
-        .input-section input[type="datetime-local"]::-webkit-datetime-edit-year-field {
-            display: none; /* Hide day, month, year fields */
+        .option-buttons button.active {
+            background-color: var(--bg-surface);
+            color: var(--text-main);
+            box-shadow: var(--shadow-sm);
         }
 
-        .input-section input[type="datetime-local"]::-webkit-datetime-edit-text {
-            /* This is the colon or slash separator, hide if you want a cleaner look */
-            display: none;
+        .form-control-premium {
+            width: 100%;
+            padding: 14px 18px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            font-size: 1rem;
+            color: var(--text-main);
+            transition: all 0.3s ease;
         }
 
-        .input-section input[type="datetime-local"] {
-            /* General styling for the input field itself */
-            text-align: center; /* Center the time */
-            padding-right: 40px; /* Make space for the calendar icon */
-            position: relative; /* For custom icon positioning if needed */
+        .form-control-premium:focus {
+            outline: none;
+            background-color: var(--bg-surface);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(241, 112, 101, 0.15);
         }
 
-        /* To-Do List Styling */
+        /* Hide default datetime-local formatting for a cleaner look */
+        .form-control-premium[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        body.dark-mode .form-control-premium[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        .btn-add {
+            background-color: var(--accent);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(241, 112, 101, 0.25);
+        }
+
+        .btn-add:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(241, 112, 101, 0.35);
+        }
+
+        /* --- Task List --- */
         .todo-list {
             list-style: none;
             padding: 0;
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .todo-list li {
-            background-color: var(--card-background); /* White background for items */
-            padding: 18px 20px; /* More padding */
-            margin-bottom: 12px; /* More space between items */
-            border-radius: 15px; /* Consistent rounding */
+            background-color: var(--bg-surface);
+            padding: 18px 20px;
+            border-radius: 16px;
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            font-size: 18px; /* Slightly larger font */
-            color: var(--text-medium);
-            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-            border: 1px solid rgba(0, 0, 0, 0.03); /* Very subtle border */
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
 
         .todo-list li:hover {
-            transform: translateY(-2px); /* Slight lift on hover */
-            box-shadow: 0 5px 15px var(--shadow-light); /* More pronounced shadow on hover */
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+            border-color: rgba(241, 112, 101, 0.3);
         }
 
-        .todo-list li.completed {
-            text-decoration: line-through;
-            color: var(--text-light); /* Lighter color for completed tasks */
-            background-color: var(--background-light); /* Grey background for completed tasks */
-            box-shadow: none; /* No shadow for completed tasks */
-            transform: none; /* No lift for completed */
-            border-color: rgba(0, 0, 0, 0.02);
-        }
-
-        /* Checkbox and Text */
-        .todo-list li .task-content {
-            flex-grow: 1;
-            cursor: pointer;
-            user-select: none;
+        .task-content {
             display: flex;
             align-items: center;
-            gap: 15px; /* Larger gap between checkbox and text */
-            min-width: 0;
+            gap: 15px;
+            flex-grow: 1;
+            cursor: pointer;
+            overflow: hidden;
         }
 
-        .todo-list li input[type="checkbox"] {
+        /* Custom Checkbox */
+        .custom-checkbox {
             appearance: none;
             -webkit-appearance: none;
-            width: 24px; /* Larger checkbox */
+            width: 24px;
             height: 24px;
-            border: 2px solid var(--text-light);
-            border-radius: 50%;
+            border: 2px solid var(--text-muted);
+            border-radius: 6px;
             position: relative;
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease;
             flex-shrink: 0;
-            background-color: var(--card-background); /* White inside */
+            background-color: transparent;
         }
 
-        .todo-list li input[type="checkbox"]:checked {
-            border-color: var(--primary-blue);
-            background-color: var(--primary-blue);
+        .custom-checkbox:checked {
+            background-color: var(--accent);
+            border-color: var(--accent);
         }
 
-        .todo-list li input[type="checkbox"]:checked::after {
-            content: '✓';
+        .custom-checkbox:checked::after {
+            content: '\f00c'; /* FontAwesome check */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
             color: white;
-            font-size: 16px; /* Larger checkmark */
+            font-size: 12px;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
-        /* Task text and timer */
-        .todo-list li .task-details {
+        /* Task Details */
+        .task-details {
             display: flex;
             flex-direction: column;
-            gap: 4px; /* Smaller gap */
             flex-grow: 1;
-            overflow: hidden;
         }
 
-        .todo-list li .task-text {
-            word-wrap: break-word;
-            line-height: 1.4; /* Better readability */
-            font-weight: 500; /* Medium weight */
+        .task-text {
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            transition: color 0.3s ease;
         }
 
-        .todo-list li .task-time {
-            font-size: 14px; /* Slightly larger */
-            color: var(--text-light);
-            margin-top: 3px;
+        .task-time, .countdown-timer {
+            font-size: 0.85rem;
+            margin-top: 4px;
         }
 
-        .todo-list li .countdown-timer {
-            font-size: 15px; /* Slightly larger */
-            font-weight: 600; /* More prominent */
-            color: var(--primary-blue);
-            margin-top: 3px;
+        .task-time {
+            color: var(--text-muted);
+        }
+
+        .countdown-timer {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* States */
+        .todo-list li.completed {
+            background-color: var(--input-bg);
+            border-color: transparent;
+            opacity: 0.7;
+        }
+
+        .todo-list li.completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
         }
 
         .todo-list li.completed .countdown-timer {
-            color: var(--text-light);
-            font-weight: 500;
+            color: var(--text-muted);
         }
 
         .todo-list li.overdue .countdown-timer {
-            color: var(--primary-red);
-            font-weight: 700; /* Bolder for overdue */
+            color: var(--danger);
         }
 
         /* Delete Button */
-        .todo-list li button {
-            background-color: var(--primary-red);
-            color: white;
+        .btn-delete {
+            background-color: transparent;
+            color: var(--text-muted);
             border: none;
-            border-radius: 10px; /* Consistent rounding */
-            padding: 10px 15px; /* More padding */
-            font-size: 15px; /* Slightly larger */
-            font-weight: 500;
+            padding: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, opacity 0.2s;
-            opacity: 0.9; /* Slightly less opaque */
-            margin-left: 15px; /* More space */
-            flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(255, 59, 48, 0.15); /* Subtle red shadow */
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .todo-list li button:hover {
-            background-color: var(--primary-red-dark);
-            transform: translateY(-1px);
-            opacity: 1;
-            box-shadow: 0 4px 10px rgba(255, 59, 48, 0.25);
+        .btn-delete:hover {
+            color: var(--danger);
+            background-color: rgba(239, 68, 68, 0.1);
         }
 
-        .todo-list li button:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 3px rgba(255, 59, 48, 0.1);
-        }
-
-        /* Placeholder for empty list */
         .empty-message {
             text-align: center;
-            color: var(--text-light);
-            font-style: italic;
-            margin-top: 25px; /* More space */
-            font-size: 16px;
-            padding: 15px;
-            background-color: var(--card-background);
-            border-radius: 15px;
-            border: 1px dashed var(--border-light); /* Dashed border for empty state */
+            color: var(--text-muted);
+            padding: 30px 15px;
+            background-color: var(--input-bg);
+            border-radius: 16px;
+            border: 1px dashed var(--border-color);
+            font-size: 0.95rem;
+            margin-top: 20px;
         }
 
-        /* Media Queries for Responsiveness */
-        @media (max-width: 600px) {
-            .todo-container {
-                padding: 25px;
-                margin: 20px;
-                max-width: calc(100% - 40px); /* Adjust max-width for smaller screens */
-            }
-
-            h1 {
-                font-size: 26px;
-                margin-bottom: 20px;
-            }
-
-            .input-section {
-                flex-direction: column; /* Stack elements on small screens */
-                gap: 10px;
-                margin-bottom: 20px;
-            }
-
-            .input-section input[type="text"],
-            .input-section input[type="datetime-local"] {
-                width: 100%;
-                min-width: unset;
-            }
-
-            .input-section .option-buttons {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .input-section button {
-                width: 100%;
-            }
-
-            .todo-list li {
-                flex-direction: column; /* Stack content in list items */
-                align-items: flex-start;
-                padding: 15px;
-                gap: 8px; /* Gap between checkbox/text and button */
-            }
-
-            .todo-list li .task-content {
-                width: 100%;
-                margin-bottom: 5px; /* Space between content and delete button */
-            }
-
-            .todo-list li button {
-                width: calc(100% - 30px); /* Full width button with padding */
-                margin-left: 0;
-            }
+        /* Footer */
+        .premium-footer {
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
-    <div class="todo-container">
-        <h1>My Tasks 🚀</h1>
-        <div class="input-section">
-            <input type="text" id="taskInput" placeholder="Add a new task...">
-            <input type="datetime-local" id="deadlineInput" class="time-only-input" style="display: none;">
-            <div class="option-buttons">
-                <button id="addTimedTaskBtn" class="active">Add with Deadline</button>
-                <button id="addTaskOnlyBtn">Add Task Only</button>
+
+    <!-- Premium Navbar -->
+    <header class="navbar navbar-expand-lg premium-nav fixed-top px-3 py-3">
+        <div class="container-fluid max-w-7xl">
+            <a class="navbar-brand" href="../index.html">ACCORD</a>
+
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="user.html">Login</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#" style="color: var(--accent)!important;">Tasks</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-4 justify-content-center mt-3 mt-lg-0">
+                    <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm rounded-pill px-4 py-2 fw-semibold d-flex align-items-center gap-2" type="button">
+                        <i class="fas fa-moon"></i> Dark
+                    </button>
+                </div>
             </div>
-            <button id="finalAddButton" onclick="handleAddTask()">Add Timed Task</button>
         </div>
-        <ul id="taskList" class="todo-list">
-            </ul>
-        <p id="emptyMessage" class="empty-message" style="display: none;">No tasks yet! Time to add some. 😊</p>
-    </div>
+    </header>
 
+    <!-- Main App -->
+    <main class="app-wrapper">
+        <div class="todo-container">
+            <h1>My Tasks 🚀</h1>
+            
+            <div class="input-section">
+                <div class="option-buttons">
+                    <button id="addTimedTaskBtn" class="active">Timed Task</button>
+                    <button id="addTaskOnlyBtn">Standard Task</button>
+                </div>
+                
+                <input type="text" id="taskInput" class="form-control-premium" placeholder="What needs to be done?">
+                <input type="datetime-local" id="deadlineInput" class="form-control-premium">
+                
+                <button id="finalAddButton" class="btn-add" onclick="handleAddTask()">Add Timed Task</button>
+            </div>
+            
+            <ul id="taskList" class="todo-list"></ul>
+            <p id="emptyMessage" class="empty-message" style="display: none;">
+                <i class="fas fa-clipboard-list mb-2 fs-3 d-block"></i>
+                No tasks yet! Time to conquer your day. 😊
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="premium-footer py-4 text-center mt-5">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-center gap-4">
+                <span class="text-muted fw-semibold">ACCORD © 2025</span>
+                <a href="#" class="text-muted text-decoration-none">Privacy & Legal</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const taskInput = document.getElementById('taskInput');
-        const deadlineInput = document.getElementById('deadlineInput');
-        const taskList = document.getElementById('taskList');
-        const emptyMessage = document.getElementById('emptyMessage');
-        const addTimedTaskBtn = document.getElementById('addTimedTaskBtn');
-        const addTaskOnlyBtn = document.getElementById('addTaskOnlyBtn');
-        const finalAddButton = document.getElementById('finalAddButton');
-
-        let isTimedTaskMode = true; // Default to timed task mode
-
-        // Function to get current IST date and time in YYYY-MM-DDTHH:MM format
-        function getISTDateTimeString(date = new Date()) {
-            const options = {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false,
-                timeZone: 'Asia/Kolkata'
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Dark Mode Logic (Synced with ACCORD ecosystem) ---
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const setDarkMode = (isDark) => {
+                document.body.classList.toggle('dark-mode', isDark);
+                if (isDark) {
+                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light';
+                    darkModeToggle.classList.replace('btn-outline-dark', 'btn-outline-light');
+                    darkModeToggle.classList.replace('btn-outline-secondary', 'btn-outline-light');
+                } else {
+                    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark';
+                    darkModeToggle.classList.replace('btn-outline-light', 'btn-outline-dark');
+                    darkModeToggle.classList.replace('btn-outline-secondary', 'btn-outline-dark');
+                }
+                localStorage.setItem('darkMode', isDark);
             };
-            const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(date);
-            const getPart = (type) => parts.find(p => p.type === type).value;
 
-            const year = getPart('year');
-            const month = getPart('month');
-            const day = getPart('day');
-            const hour = getPart('hour');
-            const minute = getPart('minute');
-            // const second = getPart('second'); // Not needed for datetime-local input format
+            const savedDarkMode = localStorage.getItem('darkMode');
+            setDarkMode(savedDarkMode === 'true');
 
-            return `${year}-${month}-${day}T${hour}:${minute}`;
-        }
-
-        // Set deadline input to today's date and current time when shown
-        function setDeadlineInputToNow() {
-            deadlineInput.value = getISTDateTimeString();
-        }
-
-        // Load tasks from localStorage when the page loads
-        document.addEventListener('DOMContentLoaded', loadTasks);
-
-        // Event listeners for mode selection buttons
-        addTimedTaskBtn.addEventListener('click', () => {
-            isTimedTaskMode = true;
-            deadlineInput.style.display = 'inline-block'; // Show deadline input
-            setDeadlineInputToNow(); // Set to current date and time
-            addTimedTaskBtn.classList.add('active');
-            addTaskOnlyBtn.classList.remove('active');
-            finalAddButton.textContent = 'Add Timed Task';
-        });
-
-        addTaskOnlyBtn.addEventListener('click', () => {
-            isTimedTaskMode = false;
-            deadlineInput.style.display = 'none'; // Hide deadline input
-            deadlineInput.value = ''; // Clear deadline value
-            addTaskOnlyBtn.classList.add('active');
-            addTimedTaskBtn.classList.remove('active');
-            finalAddButton.textContent = 'Add Task';
-        });
-
-        function handleAddTask() {
-            const taskText = taskInput.value.trim();
-            let deadline = '';
-
-            if (taskText === '') {
-                alert('Please enter a task!');
-                return;
-            }
-
-            if (isTimedTaskMode) {
-                deadline = deadlineInput.value;
-                if (deadline === '') {
-                    alert('Please select a time for the timed task!');
-                    return;
-                }
-                const deadlineTime = new Date(deadline).getTime();
-                const nowTime = new Date(getISTDateTimeString()).getTime(); // Get current IST time
-
-                if (deadlineTime < nowTime) {
-                    alert('Deadline time cannot be in the past! Please select a future time.');
-                    return;
-                }
-            }
-
-            createTaskElement(taskText, false, deadline);
-            taskInput.value = '';
-            setDeadlineInputToNow(); // Reset deadline input to current time for next entry
-            saveTasks();
-            updateEmptyMessage();
-        }
-
-        function createTaskElement(taskText, isCompleted, deadline = '') {
-            const listItem = document.createElement('li');
-            if (isCompleted) {
-                listItem.classList.add('completed');
-            }
-            listItem.dataset.originalDeadline = deadline; // Store the original deadline
-
-            const taskContentDiv = document.createElement('div');
-            taskContentDiv.classList.add('task-content');
-
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.checked = isCompleted;
-            checkbox.addEventListener('change', function() {
-                listItem.classList.toggle('completed');
-                saveTasks();
-                if (deadline) {
-                    if (listItem.classList.contains('completed')) {
-                        clearInterval(listItem.timerInterval); // Stop timer if task is completed
-                        listItem.querySelector('.countdown-timer').textContent = 'Completed!';
-                        listItem.classList.remove('overdue');
-                    } else {
-                        // Restart timer if uncompleted and deadline is in future
-                        const deadlineTime = new Date(deadline).getTime();
-                        const nowTime = new Date(getISTDateTimeString()).getTime(); // Get current IST time
-
-                        if (deadlineTime > nowTime) {
-                            updateCountdownDisplay(listItem, deadlineTime, listItem.querySelector('.countdown-timer')); // Initial update
-                            listItem.timerInterval = setInterval(() => {
-                                updateCountdownDisplay(listItem, deadlineTime, listItem.querySelector('.countdown-timer'));
-                            }, 1000);
-                        } else {
-                            listItem.querySelector('.countdown-timer').textContent = 'Overdue!';
-                            listItem.classList.add('overdue');
-                        }
-                    }
-                }
+            darkModeToggle.addEventListener('click', () => {
+                setDarkMode(!document.body.classList.contains('dark-mode'));
             });
 
-            const taskDetailsDiv = document.createElement('div');
-            taskDetailsDiv.classList.add('task-details');
+            // --- Task App Logic ---
+            const taskInput = document.getElementById('taskInput');
+            const deadlineInput = document.getElementById('deadlineInput');
+            const taskList = document.getElementById('taskList');
+            const emptyMessage = document.getElementById('emptyMessage');
+            const addTimedTaskBtn = document.getElementById('addTimedTaskBtn');
+            const addTaskOnlyBtn = document.getElementById('addTaskOnlyBtn');
+            const finalAddButton = document.getElementById('finalAddButton');
 
-            const taskSpan = document.createElement('span');
-            taskSpan.classList.add('task-text');
-            taskSpan.textContent = taskText;
+            let isTimedTaskMode = true;
 
-            taskDetailsDiv.appendChild(taskSpan);
-
-            let timerSpan = null;
-            if (deadline) {
-                const deadlineDate = new Date(deadline);
-                // Format to only show time
-                const formattedTime = deadlineDate.toLocaleString('en-US', {
-                    hour: '2-digit', minute: '2-digit', hour12: true
-                });
-
-                const timeInfo = document.createElement('div');
-                timeInfo.classList.add('task-time');
-                timeInfo.textContent = `Deadline: Today ${formattedTime}`;
-                taskDetailsDiv.appendChild(timeInfo);
-
-                timerSpan = document.createElement('div');
-                timerSpan.classList.add('countdown-timer');
-                taskDetailsDiv.appendChild(timerSpan);
-
-                // Initial update and set interval
-                if (!isCompleted) { // Only start timer if not completed
-                    const nowTime = new Date(getISTDateTimeString()).getTime(); // Get current IST time
-
-                    if (deadlineDate.getTime() > nowTime) {
-                        updateCountdownDisplay(listItem, deadlineDate.getTime(), timerSpan);
-                        listItem.timerInterval = setInterval(() => {
-                            updateCountdownDisplay(listItem, deadlineDate.getTime(), timerSpan);
-                        }, 1000);
-                    } else {
-                        timerSpan.textContent = 'Overdue!';
-                        listItem.classList.add('overdue');
-                    }
-                } else {
-                    timerSpan.textContent = 'Completed!';
-                    listItem.classList.remove('overdue');
-                }
+            function getISTDateTimeString(date = new Date()) {
+                const options = {
+                    year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit', hour12: false,
+                    timeZone: 'Asia/Kolkata'
+                };
+                const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(date);
+                const getPart = (type) => parts.find(p => p.type === type).value;
+                return `${getPart('year')}-${getPart('month')}-${getPart('day')}T${getPart('hour')}:${getPart('minute')}`;
             }
 
-            taskContentDiv.appendChild(checkbox);
-            taskContentDiv.appendChild(taskDetailsDiv);
-            listItem.appendChild(taskContentDiv);
+            function setDeadlineInputToNow() {
+                deadlineInput.value = getISTDateTimeString();
+            }
 
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
-            deleteButton.addEventListener('click', function() {
-                if (listItem.timerInterval) {
-                    clearInterval(listItem.timerInterval); // Clear interval on delete
+            // Mode Selection
+            addTimedTaskBtn.addEventListener('click', () => {
+                isTimedTaskMode = true;
+                deadlineInput.style.display = 'block';
+                setDeadlineInputToNow();
+                addTimedTaskBtn.classList.add('active');
+                addTaskOnlyBtn.classList.remove('active');
+                finalAddButton.textContent = 'Add Timed Task';
+            });
+
+            addTaskOnlyBtn.addEventListener('click', () => {
+                isTimedTaskMode = false;
+                deadlineInput.style.display = 'none';
+                deadlineInput.value = '';
+                addTaskOnlyBtn.classList.add('active');
+                addTimedTaskBtn.classList.remove('active');
+                finalAddButton.textContent = 'Add Task';
+            });
+
+            // Enter key support
+            taskInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleAddTask();
+            });
+
+            window.handleAddTask = function() {
+                const taskText = taskInput.value.trim();
+                let deadline = '';
+
+                if (taskText === '') {
+                    alert('Please enter a task!');
+                    return;
                 }
-                taskList.removeChild(listItem);
+
+                if (isTimedTaskMode) {
+                    deadline = deadlineInput.value;
+                    if (deadline === '') {
+                        alert('Please select a deadline time!');
+                        return;
+                    }
+                    if (new Date(deadline).getTime() < new Date(getISTDateTimeString()).getTime()) {
+                        alert('Deadline time cannot be in the past! Please select a future time.');
+                        return;
+                    }
+                }
+
+                createTaskElement(taskText, false, deadline);
+                taskInput.value = '';
+                if(isTimedTaskMode) setDeadlineInputToNow(); 
                 saveTasks();
                 updateEmptyMessage();
-            });
-
-            listItem.appendChild(deleteButton);
-            taskList.appendChild(listItem);
-        }
-
-        function updateCountdownDisplay(listItem, deadlineTime, timerSpan) {
-            const now = new Date(getISTDateTimeString()).getTime(); // Get current IST time
-            const distance = deadlineTime - now;
-
-            if (listItem.classList.contains('completed')) {
-                timerSpan.textContent = 'Completed!';
-                listItem.classList.remove('overdue');
-                clearInterval(listItem.timerInterval);
-                return;
             }
 
-            if (distance < 0) {
-                timerSpan.textContent = 'Overdue!';
-                listItem.classList.add('overdue');
-                clearInterval(listItem.timerInterval);
-                return;
-            }
+            function createTaskElement(taskText, isCompleted, deadline = '') {
+                const listItem = document.createElement('li');
+                if (isCompleted) listItem.classList.add('completed');
+                listItem.dataset.originalDeadline = deadline;
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                const taskContentDiv = document.createElement('div');
+                taskContentDiv.classList.add('task-content');
 
-            timerSpan.textContent = `Time left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
-
-        function saveTasks() {
-            const tasks = [];
-            taskList.querySelectorAll('li').forEach(item => {
-                tasks.push({
-                    text: item.querySelector('.task-text').textContent,
-                    completed: item.classList.contains('completed'),
-                    deadline: item.dataset.originalDeadline || '' // Retrieve the stored original deadline
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'custom-checkbox';
+                checkbox.checked = isCompleted;
+                
+                checkbox.addEventListener('change', function() {
+                    listItem.classList.toggle('completed');
+                    saveTasks();
+                    if (deadline) {
+                        const timerSpan = listItem.querySelector('.countdown-timer');
+                        if (listItem.classList.contains('completed')) {
+                            clearInterval(listItem.timerInterval);
+                            timerSpan.textContent = 'Completed!';
+                            listItem.classList.remove('overdue');
+                        } else {
+                            const deadlineTime = new Date(deadline).getTime();
+                            if (deadlineTime > new Date(getISTDateTimeString()).getTime()) {
+                                updateCountdownDisplay(listItem, deadlineTime, timerSpan);
+                                listItem.timerInterval = setInterval(() => {
+                                    updateCountdownDisplay(listItem, deadlineTime, timerSpan);
+                                }, 1000);
+                            } else {
+                                timerSpan.textContent = 'Overdue!';
+                                listItem.classList.add('overdue');
+                            }
+                        }
+                    }
                 });
-            });
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
 
-        function loadTasks() {
-            const tasks = JSON.parse(localStorage.getItem('tasks'));
-            if (tasks) {
-                tasks.forEach(task => {
-                    // Pass the full original deadline string to createTaskElement
-                    createTaskElement(task.text, task.completed, task.deadline || '');
+                // Toggle checkbox when clicking the task content area
+                taskContentDiv.addEventListener('click', (e) => {
+                    if(e.target !== checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
                 });
-            }
-            updateEmptyMessage();
-        }
 
-        function updateEmptyMessage() {
-            if (taskList.children.length === 0) {
-                emptyMessage.style.display = 'block';
-            } else {
-                emptyMessage.style.display = 'none';
-            }
-        }
+                const taskDetailsDiv = document.createElement('div');
+                taskDetailsDiv.classList.add('task-details');
 
-        // --- Initialize ---
-        // Set initial deadline input value to current date and time
-        setDeadlineInputToNow();
-        // Initial setup for buttons and message (simulates click to set active class)
-        addTimedTaskBtn.click();
-        updateEmptyMessage();
+                const taskSpan = document.createElement('span');
+                taskSpan.classList.add('task-text');
+                taskSpan.textContent = taskText;
+                taskDetailsDiv.appendChild(taskSpan);
+
+                let timerSpan = null;
+                if (deadline) {
+                    const deadlineDate = new Date(deadline);
+                    const formattedTime = deadlineDate.toLocaleString('en-US', {
+                        month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    });
+
+                    const timeInfo = document.createElement('div');
+                    timeInfo.classList.add('task-time');
+                    timeInfo.textContent = `Due: ${formattedTime}`;
+                    taskDetailsDiv.appendChild(timeInfo);
+
+                    timerSpan = document.createElement('div');
+                    timerSpan.classList.add('countdown-timer');
+                    taskDetailsDiv.appendChild(timerSpan);
+
+                    if (!isCompleted) {
+                        if (deadlineDate.getTime() > new Date(getISTDateTimeString()).getTime()) {
+                            updateCountdownDisplay(listItem, deadlineDate.getTime(), timerSpan);
+                            listItem.timerInterval = setInterval(() => {
+                                updateCountdownDisplay(listItem, deadlineDate.getTime(), timerSpan);
+                            }, 1000);
+                        } else {
+                            timerSpan.textContent = 'Overdue!';
+                            listItem.classList.add('overdue');
+                        }
+                    } else {
+                        timerSpan.textContent = 'Completed!';
+                    }
+                }
+
+                taskContentDiv.appendChild(checkbox);
+                taskContentDiv.appendChild(taskDetailsDiv);
+                listItem.appendChild(taskContentDiv);
+
+                // Delete Button with FontAwesome Icon
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'btn-delete';
+                deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteButton.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent triggering the row click
+                    if (listItem.timerInterval) clearInterval(listItem.timerInterval);
+                    
+                    // Add smooth fade out animation before removal
+                    listItem.style.opacity = '0';
+                    listItem.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        taskList.removeChild(listItem);
+                        saveTasks();
+                        updateEmptyMessage();
+                    }, 300);
+                });
+
+                listItem.appendChild(deleteButton);
+                taskList.appendChild(listItem);
+            }
+
+            function updateCountdownDisplay(listItem, deadlineTime, timerSpan) {
+                const now = new Date(getISTDateTimeString()).getTime();
+                const distance = deadlineTime - now;
+
+                if (listItem.classList.contains('completed')) {
+                    timerSpan.textContent = 'Completed!';
+                    listItem.classList.remove('overdue');
+                    clearInterval(listItem.timerInterval);
+                    return;
+                }
+
+                if (distance < 0) {
+                    timerSpan.textContent = 'Overdue!';
+                    listItem.classList.add('overdue');
+                    clearInterval(listItem.timerInterval);
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                let timeLeftStr = '';
+                if (days > 0) timeLeftStr += `${days}d `;
+                if (hours > 0 || days > 0) timeLeftStr += `${hours}h `;
+                timeLeftStr += `${minutes}m ${seconds}s`;
+
+                timerSpan.textContent = `Time left: ${timeLeftStr}`;
+            }
+
+            function saveTasks() {
+                const tasks = [];
+                taskList.querySelectorAll('li').forEach(item => {
+                    tasks.push({
+                        text: item.querySelector('.task-text').textContent,
+                        completed: item.classList.contains('completed'),
+                        deadline: item.dataset.originalDeadline || ''
+                    });
+                });
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+
+            function loadTasks() {
+                const tasks = JSON.parse(localStorage.getItem('tasks'));
+                if (tasks) {
+                    tasks.forEach(task => {
+                        createTaskElement(task.text, task.completed, task.deadline || '');
+                    });
+                }
+                updateEmptyMessage();
+            }
+
+            function updateEmptyMessage() {
+                emptyMessage.style.display = taskList.children.length === 0 ? 'block' : 'none';
+            }
+
+            // Initialize
+            loadTasks();
+            setDeadlineInputToNow();
+        });
     </script>
 </body>
 </html>
